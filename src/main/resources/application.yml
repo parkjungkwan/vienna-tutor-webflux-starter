@@ -1,0 +1,23 @@
+
+spring:
+    main:
+        allow-bean-definition-overriding: true
+    application:
+        name: rootapp
+    data:
+        mongodb:
+            uri: mongodb://root:root@db-container:27017/rootdb
+    sql:
+        init:
+            mode: always
+            encoding: UTF-8
+logging:
+    level:
+        org:
+            hibernate:
+                SQL: debug
+                type: trace
+
+jwt:
+    secret: bitcamp
+    expiration: 86400000
