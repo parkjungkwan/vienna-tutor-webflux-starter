@@ -39,7 +39,7 @@ SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http) throws Exce
             .anyExchange().permitAll()
     )
     .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
-//     .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
+    .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
     .csrf(ServerHttpSecurity.CsrfSpec::disable)
     .cors(ServerHttpSecurity.CorsSpec::disable)
     .build();
