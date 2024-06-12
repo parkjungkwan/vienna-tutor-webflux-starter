@@ -10,7 +10,7 @@ import java.util.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@Document(collection = "users")
+@Document("users")
 public class UserModel {
 
     @Id String userId ;
