@@ -18,7 +18,7 @@ services:
   application:
     build: .
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mongodb://db-container::27017/rootdb
+      SPRING_DATASOURCE_URL: jdbc:mongodb://db-container::27017/test
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
     ports:

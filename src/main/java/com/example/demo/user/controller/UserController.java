@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.common.domain.Messenger;
 import com.example.demo.user.domain.UserDTO;
@@ -23,11 +23,11 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public Mono<Messenger> login(@RequestBody UserDTO param) {
+    public Mono<ResponseEntity<Messenger>> login(@RequestBody UserDTO param) {
         log.info("::: login controller parameter ",param.toString());
         // Messenger messenger = service.login(param);
         Messenger m = Messenger.builder().message("SUCCESS").build();
-        Mono<Messenger> helloWorld = Mono.just(m);
+        Mono<ResponseEntity<Messenger>> helloWorld = Mono.just(ResponseEntity.ok(m));
         return helloWorld;
     }
 
@@ -41,49 +41,49 @@ public class UserController {
         return logout;
     }
 
-    @GetMapping("/tutorials")
+    @GetMapping("/all")
   @ResponseStatus(HttpStatus.OK)
-  public Flux<UserModel> getAllTutorials(@RequestParam(required = false) String title) {
-    if (title == null)
-      return userService.findAll();
-    else
-      return userService.findByTitleContaining(title);
+  public Flux<UserModel> getAllUsers() {
+      return userService.getAllUsers();
   }
 
-  @GetMapping("/tutorials/{id}")
+  @GetMapping("/detail/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public Mono<UserModel> getTutorialById(@PathVariable("id") String id) {
-    return userService.findById(id);
+  public Mono<UserModel> getUserById(@PathVariable("userId") String userId) {
+    return userService.getUserDetailById(userId);
   }
 
-  @PostMapping("/tutorials")
+  @PostMapping("/add")
   @ResponseStatus(HttpStatus.CREATED)
-  public Mono<UserModel> createTutorial(@RequestBody UserModel tutorial) {
-    return userService.save(new UserModel(tutorial.getTitle(), tutorial.getDescription(), false));
+  public Mono<UserModel> createUser(@RequestBody UserModel user) {
+    return userService.addUser(new UserModel(
+        user.getUserId(),
+        user.getEmail(), 
+        user.getFirstName(),
+        user.getLastName(),
+        user.getPassword(),
+        user.getRoles()
+        ));
   }
 
-  @PutMapping("/tutorials/{id}")
+  @PutMapping("/update/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public Mono<UserModel> updateTutorial(@PathVariable("id") String id, @RequestBody UserModel tutorial) {
-    return userService.update(id, tutorial);
+  public Mono<UserModel> updateUser(@PathVariable("id") String id, @RequestBody UserModel user) {
+    return userService.updateUser(id, user);
   }
 
-  @DeleteMapping("/tutorials/{id}")
+  @DeleteMapping("/users/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public Mono<Void> deleteTutorial(@PathVariable("id") String id) {
-    return userService.deleteById(id);
+  public Mono<Void> deleteUser(@PathVariable("id") String id) {
+    return userService.deleteUser(id);
   }
 
-  @DeleteMapping("/tutorials")
+  @DeleteMapping("/users")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public Mono<Void> deleteAllTutorials() {
-    return userService.deleteAll();
+  public Mono<Void> deleteAllUsers() {
+    return userService.deleteAllUsers();
   }
 
-  @GetMapping("/tutorials/published")
-  @ResponseStatus(HttpStatus.OK)
-  public Flux<UserModel> findByPublished() {
-    return userService.findByPublished(true);
-  }
+
     
 }
