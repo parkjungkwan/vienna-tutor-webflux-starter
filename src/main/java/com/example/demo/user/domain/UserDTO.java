@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data @Component
 public class UserDTO {
-    @ApiModelProperty(position = 0) private long userId;
+    @ApiModelProperty(position = 0) private String userId;
     @ApiModelProperty(position = 1) private String username;
     @ApiModelProperty(position = 2) private String password;
     @ApiModelProperty(position = 3) private String name;
