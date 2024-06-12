@@ -27,7 +27,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.IntStream;
 
 @Configuration
@@ -75,7 +74,7 @@ public class UsersCollectionConfig {
                 //
 
                 Document query = new Document("lastName", "Smith");
-                List results = new ArrayList<>();
+                var results = new ArrayList<>();
                 collection.find(query).into(results);
 
                 query = new Document("$or", Arrays.asList(
