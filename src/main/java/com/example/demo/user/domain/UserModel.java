@@ -1,18 +1,15 @@
 package com.example.demo.user.domain;
 
 import lombok.*;
-import lombok.experimental.FieldDefaults;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.*;
 
- @Data
-
+@Data
+@Document
 public class UserModel {
 
-    Long userId ;
+    @Id Long userId ;
     String username;
     String firstName ;
     String lastName ;
@@ -27,6 +24,18 @@ public class UserModel {
       this.email= email ;
       this.password=password ;
       this.roles=roles ;}
+
+
+      @Override
+      public String toString() {
+        return "UserModel [userId=" + userId +
+         ", username=" + username + 
+         ", firstName=" + firstName + 
+         ", lastName=" + lastName + 
+         ", email=" + email + 
+         ", password=" + password + 
+         "]";
+      }
 
 
     

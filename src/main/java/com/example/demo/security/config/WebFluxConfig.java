@@ -6,7 +6,7 @@ import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 
 @Configuration
-public class WebConfig implements WebFluxConfigurer{
+public class WebFluxConfig implements WebFluxConfigurer{
    @Override
     public void addFormatters( FormatterRegistry registry) {
         DateTimeFormatterRegistrar registrar = new DateTimeFormatterRegistrar();

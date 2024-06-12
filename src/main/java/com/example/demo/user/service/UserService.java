@@ -1,12 +1,10 @@
 package com.example.demo.user.service;
 
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
+@Service
+public class UserService {
 
-
-
-public interface UserService {
-   //ResponseEntity<?> register (RegisterDto registerDto);
- //  ResponseEntity<BearerToken> authenticate(LoginDto loginDto);
-
+    private final UserRepository UserRepository;
+    
 }

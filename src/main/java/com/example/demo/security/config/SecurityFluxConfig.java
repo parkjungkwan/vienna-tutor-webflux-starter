@@ -10,7 +10,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Configuration
 @EnableWebFluxSecurity
-public class SecurityConfig {
+public class SecurityFluxConfig {
 
 
 @Bean
