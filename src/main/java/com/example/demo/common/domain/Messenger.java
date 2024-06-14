@@ -14,9 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Messenger {
     private String message;
-    private int status;
+    private Object data; // 제네릭 객체
     private String accessToken;
     private String refreshToken;
-    private Long id;
     
 }

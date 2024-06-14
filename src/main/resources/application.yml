@@ -7,17 +7,21 @@ spring:
         name: rootapp
     data:
         mongodb:
-            uri: mongodb://root:root@223.130.153.131:27017/rootdb?retryWrites=true&w=majority
+            uri: mongodb://root:root@223.130.153.131:27017/mydb?retryWrites=true&w=majority&authSource=admin
     sql:
         init:
             mode: always
             encoding: UTF-8
-logging:
-    level:
-        org:
-            hibernate:
-                SQL: debug
-                type: trace
+# logging:X
+#     level:
+#         org:
+#             hibernate:
+#                 SQL: debug
+#                 type: trace
+#         com:
+#             example:
+#                 demo:
+#                     type: info
 
 jwt:
     secret: bitcamp

@@ -34,7 +34,7 @@ public class UsersCollectionConfig {
         @Bean
         CommandLineRunner initUsers(UserRepository repo) {
                 System.out.println(" >>>> 1 실행 >>>>");
-                String uri = "mongodb://root:root@223.130.153.131:27017/admin";
+                String uri = "mongodb://root:root@223.130.153.131:27017/mydb?authSource=admin";
                 // Construct a ServerApi instance using the ServerApi.builder() method
                 ServerApi serverApi = ServerApi.builder()
                                 .version(ServerApiVersion.V1)
@@ -47,7 +47,7 @@ public class UsersCollectionConfig {
                 try (MongoClient mongoClient = MongoClients.create(settings)) {
                         System.out.println(" DB 접속 ...");
                         MongoDatabase database = mongoClient.getDatabase("mydb");
-                        System.out.println(" Test 컬렉션 접속 ...");
+                        System.out.println(" MyDB 컬렉션 접속 ...");
                         try {
                                 // Send a ping to confirm a successful connection
                                 Bson command = new BsonDocument("ping", new BsonInt64(1));
@@ -55,26 +55,7 @@ public class UsersCollectionConfig {
                                 System.out.println(" 핑 연 결 ...");
                                 System.out.println("Pinged your deployment. You successfully connected to MongoDB!");
                                 System.out.println(commandResult);
-
-                                boolean exists = database.listCollectionNames()
-                                                .into(new ArrayList<String>()).contains("users");
-                                if (!exists) {
-
-                                        MongoCollection<Document> collection = database.getCollection("users");
-                                        Document user = new Document()
-                                                        .append("firstNme", "Joe")
-                                                        .append("lastName", "Smith")
-                                                        .append("email", "joe@test.com")
-                                                        .append("password", "1234")
-                                                        .append("skills", Arrays.asList("java", "spring", "mongodb"))
-                                                        .append("manager", new Document()
-                                                                        .append("firstName", "Sally")
-                                                                        .append("lastName", "Johanson"));
-                                        collection.insertOne(user);
-
-                                        
-                                }
-                                System.out.println(" >>>> 8 컬렉션 생성 확인 >>>>");
+                              
                         } catch (MongoException me) {
                                 System.out.println(" >>>> 9 에러 발생 >>>>");
                                 System.err.println(me);
@@ -88,7 +69,6 @@ public class UsersCollectionConfig {
                                                 .firstName("James" + i)
                                                 .lastName("Byden " + i)
                                                 .password("aaa")
-                                                .roles(null)
                                                 .build());
 
                                 repo.insert(userMono);

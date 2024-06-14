@@ -20,7 +20,7 @@ public class UserModel {
     String password ;
 
 
-    List <RoleModel> roles ;
+    // List <RoleModel> roles ;
 
 
 
