@@ -72,42 +72,7 @@ public class UsersCollectionConfig {
                                                                         .append("lastName", "Johanson"));
                                         collection.insertOne(user);
 
-                                        //
-                                        // 4.3 Find documents
-                                        //
-
-                                        Document query = new Document("lastName", "Smith");
-                                        var results = new ArrayList<>();
-                                        collection.find(query).into(results);
-
-                                        query = new Document("$or", Arrays.asList(
-                                                        new Document("lastName", "Smith"),
-                                                        new Document("firstName", "Joe")));
-                                        results = new ArrayList<>();
-                                        collection.find(query).into(results);
-
-                                        //
-                                        // 4.4 Update document
-                                        //
-
-                                        query = new Document(
-                                                        "skills",
-                                                        new Document(
-                                                                        "$elemMatch",
-                                                                        new Document("$eq", "spring")));
-                                        Document update = new Document(
-                                                        "$push",
-                                                        new Document("skills", "security"));
-                                        collection.updateMany(query, update);
-
-                                        //
-                                        // 4.5 Delete documents
-                                        //
-
-                                        query = new Document(
-                                                        "yearsOfService",
-                                                        new Document("$lt", 0));
-                                        // collection.deleteMany(query);
+                                        
                                 }
                                 System.out.println(" >>>> 8 컬렉션 생성 확인 >>>>");
                         } catch (MongoException me) {
