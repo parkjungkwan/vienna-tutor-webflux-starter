@@ -2,6 +2,7 @@
 spring:
     main:
         allow-bean-definition-overriding: true
+        web-application-type: reactive
     application:
         name: rootapp
     data:
@@ -21,3 +22,6 @@ logging:
 jwt:
     secret: bitcamp
     expiration: 86400000
+
+server:
+  port : 8888
