@@ -8,6 +8,7 @@ import com.example.demo.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Mono;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -20,17 +21,19 @@ public class TokenService {
 
       private final TokenRepository tokenRepository;
 
-      public TokenModel createRefrshToken(String email){
+      public Mono<TokenModel> saveRefrshToken(String email){
 
         TokenModel token = TokenModel.builder()
         .email(email)
         .refreshToken(UUID.randomUUID().toString())
-        .expiryDate(Instant.now().plusMillis(36000))
+        .expiryDate(Instant.now().plusMillis(600000))
         .build();
 
 
-        return token;
+        return tokenRepository.save(token);
         
       }
+
+      
     
 }
