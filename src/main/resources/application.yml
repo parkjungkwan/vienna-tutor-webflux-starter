@@ -25,7 +25,10 @@ spring:
 
 jwt:
     secret: bitc123231231mpbitcam565676qweweqpbitcam65757camp
-    expiration: 86400000
+    expiration: 
+        access: 600000
+        refresh: 1200000
+
 
 server:
   port : 8888

@@ -3,10 +3,13 @@ package com.example.demo.user.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.common.domain.Messenger;
 import com.example.demo.security.component.JwtProvider;
+import com.example.demo.security.repository.TokenRepository;
+import com.example.demo.security.service.TokenService;
 import com.example.demo.user.domain.UserDTO;
 import com.example.demo.user.domain.UserModel;
 import com.example.demo.user.repository.UserRepository;
@@ -24,6 +27,10 @@ public class UserService {
 
   private final UserRepository userRepository;
   private final JwtProvider jwtProvider;
+  private final TokenService tokenService;
+
+   @Value("${jwt.expiration.refresh}")
+    private long refreshTokenExpiration;
 
   public Flux<UserModel> getAllUsers() {
     return userRepository.findAll();
@@ -70,12 +77,21 @@ public class UserService {
   public Mono<Messenger> login(UserModel user) {
     log.info("로그인에 사용되는 이메일 : {}",user.getEmail());
 
-    var accessToken = jwtProvider.generateToken(null, user);
+    var accessToken = jwtProvider.generateToken(null, user, "accessToken");
     if(accessToken.equals("")){
       log.info("접속토큰 발급 실패");
     }
 
+    var refreshToken = jwtProvider.generateToken(null, user, "refreshToken");
+    if(refreshToken.equals("")){
+      log.info("리프레시 토큰 발급 실패");
+    }
+
     log.info("로그인 성공시 접속토큰  : {}", accessToken);
+    log.info("로그인 성공시 재생토큰  : {}", refreshToken);
+
+    tokenService.saveRefrshToken(user.getEmail(), refreshToken, refreshTokenExpiration);
+
     // Sync
     return userRepository.findByEmail(user.getEmail())
     .filter(i -> i.getPassword().equals(user.getPassword()))
@@ -83,7 +99,7 @@ public class UserService {
     .log()
     .map(i -> Messenger.builder().message("SUCCESS").data(i)
     .accessToken(accessToken) //"fake-access-token"
-    .refreshToken("fake-refresh-token")
+    .refreshToken(refreshToken)
     .build())
     
     ;

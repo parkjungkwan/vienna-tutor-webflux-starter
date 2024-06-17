@@ -1,5 +1,6 @@
 package com.example.demo.security.component;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +25,11 @@ public class JwtProvider {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    @Value("${jwt.expiration}")
-    private long tokenExpiration;
+    @Value("${jwt.expiration.access}")
+    private long accessTokenExpiration;
+
+    @Value("${jwt.expiration.refresh}")
+    private long refreshTokenExpiration;
 
     String extractUsername(String jwt){
         return extractClaim(jwt, Claims::getSubject);
@@ -46,16 +50,18 @@ public class JwtProvider {
         return extractClaim(jwt, Claims::getExpiration).before(new Date());
     }
 
-    public String generateToken(Map<String, Object> extraClaims, UserModel userDetails) {
-        long currentTimeMillis = System.currentTimeMillis();
+    public String generateToken(Map<String, Object> extraClaims, UserModel userDetails, String isRefreshToken) {
+
         return Jwts.builder()
-                .claims(extraClaims)
-                .subject(userDetails.getEmail())
-                .claim("roles", List.of("user"))
-                .issuedAt(new Date(currentTimeMillis))
-                .expiration(new Date(currentTimeMillis + tokenExpiration * 1000))
-                .signWith(getSigningKey(), Jwts.SIG.HS256)
-                .compact();
+        .claims(extraClaims)
+        .subject(userDetails.getEmail())
+        .claim("roles", List.of("user"))
+        .expiration(Date.from(Instant.now().plusSeconds(isRefreshToken.equals("accessToken") ? refreshTokenExpiration : accessTokenExpiration)))
+        .signWith(getSigningKey(), Jwts.SIG.HS256)
+        .compact();
+
+
+
     }
 
     private <T> T extractClaim(String jwt, Function<Claims, T> claimResolver){

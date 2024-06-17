@@ -1,13 +1,12 @@
 package com.example.demo.security.domain;
 import lombok.*;
 
-import java.time.Instant;
 import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.example.demo.user.domain.UserModel;
+
 
 @Builder
 @AllArgsConstructor
@@ -21,14 +20,14 @@ public class TokenModel {
     private String tokenId;
     private String refreshToken;
     private String email;
-    private Instant expiryDate;
+    private Date expiration;
 
     @Override
     public String toString() {
       return "RefreshTokenModel [tokenId=" + tokenId +
        ", refreshToken=" + refreshToken + 
        ", email=" + email + 
-       ", expiryDate=" + expiryDate + 
+       ", expiration=" + expiration + 
        "]";
     }
 
