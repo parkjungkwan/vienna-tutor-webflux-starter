@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../../../../../../../.."
+		},
+		{
+			"path": "../../../../../../../../../nextjs-org-14"
+		}
+	],
+	"settings": {
+		"java.configuration.updateBuildConfiguration": "interactive"
+	}
+}

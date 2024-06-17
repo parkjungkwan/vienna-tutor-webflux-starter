@@ -1,4 +1,4 @@
-package com.example.demo.security.service;
+package com.example.demo.security.component;
 
 import java.util.Date;
 import java.util.List;
@@ -8,17 +8,18 @@ import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import com.example.demo.security.exception.JwtAuthenticationException;
-import com.example.demo.security.filter.TokenProvider;
+import com.example.demo.user.domain.UserModel;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
-@Service
-class TokenProviderImpl implements TokenProvider {
+@Component
+public class JwtProvider {
 
     @Value("${jwt.secret}")
     private String secretKey;
@@ -35,12 +36,8 @@ class TokenProviderImpl implements TokenProvider {
         return extractClaim(jwt, claims -> (List<String>) claims.get("roles"));
     }
 
-    @Override
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(Map.of(), userDetails);
-    }
 
-    @Override
+
     public boolean isTokenValid(String jwt){
         return !isTokenExpired(jwt);
     }
@@ -49,15 +46,12 @@ class TokenProviderImpl implements TokenProvider {
         return extractClaim(jwt, Claims::getExpiration).before(new Date());
     }
 
-    private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+    public String generateToken(Map<String, Object> extraClaims, UserModel userDetails) {
         long currentTimeMillis = System.currentTimeMillis();
         return Jwts.builder()
                 .claims(extraClaims)
-                .subject(userDetails.getUsername())
-                .claim("roles", userDetails.getAuthorities().stream()
-                        .map(GrantedAuthority::getAuthority)
-                        .map(role -> role.substring("ROLE_".length()))
-                        .toArray())
+                .subject(userDetails.getEmail())
+                .claim("roles", List.of("user"))
                 .issuedAt(new Date(currentTimeMillis))
                 .expiration(new Date(currentTimeMillis + tokenExpiration * 1000))
                 .signWith(getSigningKey(), Jwts.SIG.HS256)

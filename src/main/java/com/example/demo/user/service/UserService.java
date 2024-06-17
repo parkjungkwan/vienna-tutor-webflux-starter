@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.common.domain.Messenger;
+import com.example.demo.security.component.JwtProvider;
 import com.example.demo.user.domain.UserDTO;
 import com.example.demo.user.domain.UserModel;
 import com.example.demo.user.repository.UserRepository;
 
+import io.jsonwebtoken.JwtParser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
@@ -21,6 +23,7 @@ public class UserService {
 
 
   private final UserRepository userRepository;
+  private final JwtProvider jwtProvider;
 
   public Flux<UserModel> getAllUsers() {
     return userRepository.findAll();
@@ -66,13 +69,17 @@ public class UserService {
 
   public Mono<Messenger> login(UserModel user) {
     log.info("로그인에 사용되는 이메일 : {}",user.getEmail());
+
+    var accessToken = jwtProvider.generateToken(null, user);
+
+    log.info("로그인 성공시 접속토큰  : {}", accessToken);
     // Sync
     return userRepository.findByEmail(user.getEmail())
     .filter(i -> i.getPassword().equals(user.getPassword()))
     .map(i -> UserDTO.builder().email(i.getEmail()).firstName(i.getFirstName()).lastName(i.getLastName()).build())
     .log()
     .map(i -> Messenger.builder().message("SUCCESS").data(i)
-    .accessToken("fake-access-token")
+    .accessToken(accessToken) //"fake-access-token"
     .refreshToken("fake-refresh-token")
     .build())
     

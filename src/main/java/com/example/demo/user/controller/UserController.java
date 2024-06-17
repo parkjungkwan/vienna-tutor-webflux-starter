@@ -5,6 +5,10 @@ import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.HashMap;
+import java.util.stream.Collectors;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +44,7 @@ public class UserController {
 
     @GetMapping("/logout")
     public Mono<Messenger> logout(@RequestHeader("Authorization") String accessToken) {
-        log.info("1- logout request : {}", accessToken);
+        log.info("1- 로그아웃 접속토큰 : {}", accessToken);
         Messenger m = Messenger.builder().message("SUCCESS").build();
         Mono<Messenger> logout = Mono.just(m);
         return logout;

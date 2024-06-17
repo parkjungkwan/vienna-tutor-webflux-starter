@@ -24,7 +24,7 @@ spring:
 #                     type: info
 
 jwt:
-    secret: bitcamp
+    secret: bitc123231231mpbitcam565676qweweqpbitcam65757camp
     expiration: 86400000
 
 server:
