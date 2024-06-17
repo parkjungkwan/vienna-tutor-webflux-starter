@@ -54,7 +54,7 @@ class DemoApplicationTests {
 	@Test @DisplayName("WebFlux: Map")
     void WebFluxFlatMapTest(){
        Flux.just("bangez",".","com")
-	   .map(String::toUpperCase)
+	   .map(s-> Flux.just(s.toUpperCase().split("")))
 	   .subscribe(System.out::println);
     }
 	@Test @DisplayName("WebFlux: FlatMap")

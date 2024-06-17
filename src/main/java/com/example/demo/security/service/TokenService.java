@@ -26,7 +26,7 @@ public class TokenService {
 
       private final TokenRepository tokenRepository;
 
-      public Mono<TokenModel> saveRefrshToken(String email, String refreshToken, long refreshTokenExpiration){
+      public void saveRefrshToken(String email, String refreshToken, long refreshTokenExpiration){
 
         TokenModel token = TokenModel.builder()
         .email(email)
@@ -34,9 +34,11 @@ public class TokenService {
         .expiration(Date.from(Instant.now().plusSeconds(refreshTokenExpiration)))
         .build();
 
+        log.info("Service - TokenModel token : {}",token);
 
-        return tokenRepository.save(token);
-        
+        tokenRepository.save(token)
+        .flatMap(i -> Mono.just(i.getRefreshToken())).subscribe();
+
       }
 
 
