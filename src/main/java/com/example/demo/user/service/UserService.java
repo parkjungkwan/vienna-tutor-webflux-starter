@@ -71,6 +71,9 @@ public class UserService {
     log.info("로그인에 사용되는 이메일 : {}",user.getEmail());
 
     var accessToken = jwtProvider.generateToken(null, user);
+    if(accessToken.equals("")){
+      log.info("접속토큰 발급 실패");
+    }
 
     log.info("로그인 성공시 접속토큰  : {}", accessToken);
     // Sync

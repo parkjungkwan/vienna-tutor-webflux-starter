@@ -9,6 +9,6 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LoginDTO {
 
-    private String username ; //  email 로 username 대체 가능
+    private String email ; //  email 로 username 대체 가능
     private String password ;
 }
