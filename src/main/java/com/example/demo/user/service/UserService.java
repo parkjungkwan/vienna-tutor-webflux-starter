@@ -29,8 +29,11 @@ public class UserService {
   private final JwtProvider jwtProvider;
   private final TokenService tokenService;
 
-   @Value("${jwt.expiration.refresh}")
-    private long refreshTokenExpiration;
+   @Value("${jwt.expiration.access}")
+    private long accessTokenExpire;
+
+    @Value("${jwt.expiration.refresh}")
+    private long refreshTokenExpire;
 
   public Flux<UserModel> getAllUsers() {
     return userRepository.findAll();
@@ -90,7 +93,7 @@ public class UserService {
     log.info("로그인 성공시 접속토큰  : {}", accessToken);
     log.info("로그인 성공시 재생토큰  : {}", refreshToken);
 
-    tokenService.saveRefrshToken(user.getEmail(), refreshToken, refreshTokenExpiration);
+    tokenService.saveRefrshToken(user.getEmail(), refreshToken, refreshTokenExpire);
 
 
     // Sync
@@ -99,8 +102,10 @@ public class UserService {
     .map(i -> UserDTO.builder().email(i.getEmail()).firstName(i.getFirstName()).lastName(i.getLastName()).build())
     .log()
     .map(i -> Messenger.builder().message("SUCCESS").data(i)
-    .accessToken(accessToken) //"fake-access-token"
+    .accessToken(accessToken) 
     .refreshToken(refreshToken)
+    .accessTokenExpire(accessTokenExpire)
+    .refreshTokenExpire(refreshTokenExpire)
     .build())
     
     ;

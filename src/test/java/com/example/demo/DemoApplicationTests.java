@@ -64,9 +64,4 @@ class DemoApplicationTests {
 	   .subscribe(System.out::println);
     }
 
-	
-
-	
-
-
 }

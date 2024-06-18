@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.common.domain.Messenger;
 import com.example.demo.security.domain.ProfileDTO;
 
 import reactor.core.publisher.Mono;
@@ -25,6 +26,12 @@ public class ProfileController {
                 .map(name -> name.substring("ROLE_".length()))
                 .collect(Collectors.toSet())
         ));
+    }
+
+    @GetMapping("/refresh")
+    Mono<Messenger> getRefresh(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return Mono.empty();
     }
     
 }

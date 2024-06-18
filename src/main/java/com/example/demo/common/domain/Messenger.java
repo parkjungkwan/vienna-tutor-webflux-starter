@@ -17,5 +17,7 @@ public class Messenger {
     private Object data; // 제네릭 객체
     private String accessToken;
     private String refreshToken;
+    private long accessTokenExpire;
+    private long refreshTokenExpire;
     
 }
