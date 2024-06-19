@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-public class ProfileController {
+public class AuthController {
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping("/profile")
     Mono<ProfileDTO> getProfile(Authentication authentication) {

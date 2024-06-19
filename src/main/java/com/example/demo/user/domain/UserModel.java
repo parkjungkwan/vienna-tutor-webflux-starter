@@ -3,6 +3,12 @@ package com.example.demo.user.domain;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.validation.constraints.Email;
+
+import java.io.Serializable;
 import java.util.*;
 
 @Builder
@@ -11,25 +17,30 @@ import java.util.*;
 @Getter
 @Setter
 @Document("users")
-public class UserModel {
+public class UserModel implements Serializable{
 
-    @Id String userId ;
+    @Id String id ;
+    String username; // username is email
     String firstName ;
     String lastName ;
-    String email;
-    String password ;
+   // @Email String email;
+    @JsonIgnore String password ;
 
 
-    // List <RoleModel> roles ;
+    @Builder.Default()
+    private boolean active = true;
+
+    @Builder.Default()
+    private List<String> roles = new ArrayList<>();
 
 
 
       @Override
       public String toString() {
-        return "UserModel [userId=" + userId +
+        return "UserModel [id=" + id +
          ", firstName=" + firstName + 
          ", lastName=" + lastName + 
-         ", email=" + email + 
+         ", username=" + username + 
          ", password=" + password + 
          "]";
       }

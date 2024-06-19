@@ -19,7 +19,7 @@ public class UserDTO {
     private String lastName;
     // private String password; 프론트로 보내는 값은 비번을 지운다
     private String firstName;
-    private String email;
+    private String username;
     // private List<RoleModel> roles;
 }
 

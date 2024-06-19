@@ -14,5 +14,5 @@ public interface UserRepository extends ReactiveMongoRepository<UserModel, Strin
   Flux<UserModel> findByLastName(String lastName);
   
   Flux<UserModel> findAll();
-  Mono<UserModel> findByEmail(String email);
+  Mono<UserModel> findByUsername(String username);
 }

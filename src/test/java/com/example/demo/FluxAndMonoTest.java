@@ -1,11 +1,14 @@
 package com.example.demo;
 
-import static org.assertj.core.api.Assertions.assertThat; 
-import com.example.demo.common.config.CustomException;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+
+import com.example.demo.common.exception.CustomExceptionr;
+
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxSink;
 import reactor.core.publisher.Mono;
@@ -16,8 +19,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FluxAndMonoTest {
-    @Mock CustomException customExceptionMono;
-    @Mock CustomException customExceptionFlux;
+    @Mock CustomExceptionr customExceptionMono;
+    @Mock CustomExceptionr customExceptionFlux;
 
     // @BeforeEach
     // void setUp(){

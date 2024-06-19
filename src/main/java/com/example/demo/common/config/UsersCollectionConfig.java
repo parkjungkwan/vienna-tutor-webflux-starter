@@ -65,7 +65,7 @@ public class UsersCollectionConfig {
                 return args -> {
                         IntStream.range(0, 1).forEach(i -> {
                                 Mono<UserModel> userMono = Mono.just(UserModel.builder()
-                                                .email(i + "@test.com")
+                                                .username(i + "@test.com")
                                                 .firstName("James" + i)
                                                 .lastName("Byden " + i)
                                                 .password("aaa")
